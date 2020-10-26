@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CryptoApp.Views.MainPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="http://prismlibrary.com"
+    Title="{Binding Title}">
+
+    <StackLayout>
+        <SearchBar Placeholder="Search Crypto" Text="{Binding TextSearch}" />
+
+        <Grid>
+            <ListView HasUnevenRows="True" ItemsSource="{Binding CryptoCoinList}">
+                <ListView.Behaviors>
+                    <behaviors:EventToCommandBehavior
+                        Command="{Binding SelectedCryptoDetailCommand}"
+                        EventArgsParameterPath="SelectedItem"
+                        EventName="ItemSelected" />
+                </ListView.Behaviors>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <Image
+                                    Margin="20,10,20,10"
+                                    HeightRequest="40"
+                                    Source="{Binding Image}" />
+
+                                <Label
+                                    Grid.Column="1"
+                                    FontAttributes="Bold"
+                                    FontSize="Large"
+                                    HorizontalTextAlignment="Start"
+                                    Text="{Binding Name}"
+                                    VerticalTextAlignment="Center" />
+
+                                <StackLayout Grid.Column="2" Margin="0,0,20,0">
+                                    <Label Text="Current Price" />
+                                    <Label Text="{Binding CurrentPrice}" />
+                                </StackLayout>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+
+            <ListView
+                BackgroundColor="White"
+                HasUnevenRows="True"
+                IsVisible="{Binding ShowSearchList}"
+                ItemsSource="{Binding CryptoCoinForSearchList}">
+                <ListView.Behaviors>
+                    <behaviors:EventToCommandBehavior
+                        Command="{Binding SelectedCryptoDetailCommand}"
+                        EventArgsParameterPath="SelectedItem"
+                        EventName="ItemSelected" />
+                </ListView.Behaviors>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <Label
+                                    Grid.Column="1"
+                                    Margin="20,20,20,20"
+                                    FontAttributes="Bold"
+                                    FontSize="Large"
+                                    HorizontalTextAlignment="Start"
+                                    Text="{Binding Name}"
+                                    VerticalTextAlignment="Center" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </StackLayout>
+
+</ContentPage>
