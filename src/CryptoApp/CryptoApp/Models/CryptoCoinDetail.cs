@@ -430,33 +430,6 @@ namespace CryptoApp.Models
         [JsonProperty("genesis_date")]
         public string GenesisDate { get; set; }
 
-        [JsonProperty("sentiment_votes_up_percentage")]
-        public double SentimentVotesUpPercentage { get; set; }
-
-        [JsonProperty("sentiment_votes_down_percentage")]
-        public double SentimentVotesDownPercentage { get; set; }
-
-        [JsonProperty("market_cap_rank")]
-        public double MarketCapRank { get; set; }
-
-        [JsonProperty("coingecko_rank")]
-        public double CoingeckoRank { get; set; }
-
-        [JsonProperty("coingecko_score")]
-        public double CoingeckoScore { get; set; }
-
-        [JsonProperty("developer_score")]
-        public double DeveloperScore { get; set; }
-
-        [JsonProperty("community_score")]
-        public double CommunityScore { get; set; }
-
-        [JsonProperty("liquidity_score")]
-        public double LiquidityScore { get; set; }
-
-        [JsonProperty("public_interest_score")]
-        public double PublicInterestScore { get; set; }
-
         [JsonProperty("market_data")]
         public MarketData MarketData { get; set; }
 
