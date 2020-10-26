@@ -382,48 +382,6 @@ namespace CryptoApp.Models
 
         [JsonProperty("current_price")]
         public CurrentPrice CurrentPrice { get; set; }
-
-        [JsonProperty("price_change_24h")]
-        public double PriceChange24h { get; set; }
-
-        [JsonProperty("price_change_percentage_24h")]
-        public double PriceChangePercentage24h { get; set; }
-
-        [JsonProperty("price_change_percentage_7d")]
-        public double PriceChangePercentage7d { get; set; }
-
-        [JsonProperty("price_change_percentage_14d")]
-        public double PriceChangePercentage14d { get; set; }
-
-        [JsonProperty("price_change_percentage_30d")]
-        public double PriceChangePercentage30d { get; set; }
-
-        [JsonProperty("price_change_percentage_60d")]
-        public double PriceChangePercentage60d { get; set; }
-
-        [JsonProperty("price_change_percentage_200d")]
-        public double PriceChangePercentage200d { get; set; }
-
-        [JsonProperty("price_change_percentage_1y")]
-        public double PriceChangePercentage1y { get; set; }
-
-        [JsonProperty("market_cap_change_24h")]
-        public double MarketCapChange24h { get; set; }
-
-        [JsonProperty("market_cap_change_percentage_24h")]
-        public double MarketCapChangePercentage24h { get; set; }
-
-        [JsonProperty("total_supply")]
-        public double TotalSupply { get; set; }
-
-        [JsonProperty("max_supply")]
-        public double MaxSupply { get; set; }
-
-        [JsonProperty("circulating_supply")]
-        public double CirculatingSupply { get; set; }
-
-        [JsonProperty("last_updated")]
-        public DateTime LastUpdated { get; set; }
     }
 
 
