@@ -9,10 +9,11 @@
       <method name=".ctor" />
     </type>
   </assembly>
-
+  <assembly fullname="mscorlib">
+    <type fullname="System.Convert" preserve="All" />
+  </assembly>
   <assembly fullname="Prism" />
   <assembly fullname="Prism.Forms" />
   <assembly fullname="Prism.DryIoc.Forms" />
   <assembly fullname="DryIoc" />
-
 </linker>

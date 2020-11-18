@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using CryptoApp.Models;
+using CryptoApp.Models.Dtos;
 using Refit;
 
-namespace CryptoApp.Services
+namespace CryptoApp.Services.ApiClientServices
 {
     [Headers("Content-Type: application/json")]
     public interface ICoinGeckoService

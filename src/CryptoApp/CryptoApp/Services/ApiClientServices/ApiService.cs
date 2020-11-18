@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using CryptoApp.Constants;
+﻿using CryptoApp.Constants;
 using Refit;
 
-namespace CryptoApp.Services
+namespace CryptoApp.Services.ApiClientServices
 {
     public class ApiService<T> : IApiService<T>
     {

@@ -1,5 +1,8 @@
 using Acr.UserDialogs;
+using CryptoApp.Configurations;
 using CryptoApp.Services;
+using CryptoApp.Services.ApiClientServices;
+using CryptoApp.Services.Interfaces;
 using Prism;
 using Prism.Ioc;
 using CryptoApp.ViewModels;
@@ -25,9 +28,14 @@ namespace CryptoApp
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterSingleton(typeof(IApiService<>), typeof(ApiService<>));
             containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
             containerRegistry.RegisterInstance(UserDialogs.Instance);
+            containerRegistry.RegisterInstance(AutoMapperConfiguration.CreateMapper());
+
+            containerRegistry.Register(typeof(IApiService<>), typeof(ApiService<>));
+            containerRegistry.Register(typeof(IDataStoreService<>), typeof(DataStoreService<>));
+            containerRegistry.Register<IMainPageService, MainPageService>();
+            containerRegistry.Register<ICryptoDetailPageService, CryptoDetailPageService>();
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();

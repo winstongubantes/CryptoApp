@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using CryptoApp.Models.Entities.Base;
 
-namespace CryptoApp.Models
+namespace CryptoApp.Models.Entities
 {
-    public class CryptoCoin
+    public class CryptoCoin : EntityRecord
     {
         public string Id { get; set; }
         public string Symbol { get; set; }

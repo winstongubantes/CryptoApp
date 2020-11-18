@@ -10,7 +10,7 @@
         <Image
             Margin="20,20,20,10"
             HeightRequest="80"
-            Source="{Binding CryptoCoinDetail.Image.Large}" />
+            Source="{Binding CryptoCoinDetail.LargeImage}" />
 
         <ScrollView>
             <Grid>
@@ -72,7 +72,7 @@
                     <Label
                         Grid.Column="1"
                         FontSize="Medium"
-                        Text="{Binding CryptoCoinDetail.MarketData.CurrentPrice.Usd}" />
+                        Text="{Binding CryptoCoinDetail.CurrentPrice}" />
                 </Grid>
 
                 <Grid Grid.Row="4" Margin="20,0,20,0">
@@ -87,7 +87,7 @@
                     <StackLayout Grid.Row="1">
                         <Label
                             FontSize="Medium"
-                            Text="{Binding CryptoCoinDetail.Description.En}"
+                            Text="{Binding CryptoCoinDetail.Description}"
                             TextColor="Black" />
                     </StackLayout>
                 </Grid>

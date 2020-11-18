@@ -1,63 +1,64 @@
 ﻿using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
-using CryptoApp.Models;
-using CryptoApp.Services;
+using CryptoApp.Services.ApiClientServices;
+using CryptoApp.Services.Interfaces;
+using CryptoApp.ViewModels.Base;
 using CryptoApp.Views;
 using Prism.Services;
 
 namespace CryptoApp.ViewModels
 {
-    public class MainPageViewModel : ViewModelBase
+    public class MainPageViewModel : BaseViewModel
     {
-        private readonly IApiService<ICoinGeckoService> _coinGeckoService;
+        private readonly INavigationService _navigationService;
         private readonly IUserDialogs _userDialogs;
         private readonly IDeviceService _deviceService;
-        private ObservableCollection<CryptoCoin> _cryptoCoinList;
-        private ObservableCollection<CryptoCoin> _cryptoCoinForSearchList;
-        private IList<CryptoCoin> _cryptoCoinForSearchOriginalList;
+        private readonly IMainPageService _mainPageService;
+
+        private ObservableCollection<Models.CryptoCoin> _cryptoCoinList;
+        private ObservableCollection<Models.CryptoCoin> _cryptoCoinForSearchList;
+        private IList<Models.CryptoCoin> _cryptoCoinForSearchOriginalList;
         private string _textSearch;
         private bool _showSearchList;
 
         public MainPageViewModel(
-            INavigationService navigationService, 
-            IApiService<ICoinGeckoService> coinGeckoService, 
+            INavigationService navigationService,
             IUserDialogs userDialogs, 
-            IDeviceService deviceService)
-            : base(navigationService)
+            IDeviceService deviceService, 
+            IMainPageService mainPageService)
         {
-            _coinGeckoService = coinGeckoService;
+            _navigationService = navigationService;
             _userDialogs = userDialogs;
             _deviceService = deviceService;
+            _mainPageService = mainPageService;
             Title = "Crypto App";
 
-            SelectedCryptoDetailCommand = new DelegateCommand<CryptoCoin>(NavigateCryptoDetail);
-            SelectedCryptoCoinCommand = new DelegateCommand<CryptoCoin>(NavigateCryptoDetail);
+            SelectedCryptoDetailCommand = new DelegateCommand<Models.CryptoCoin>(NavigateCryptoDetail);
+            SelectedCryptoCoinCommand = new DelegateCommand<Models.CryptoCoin>(NavigateCryptoDetail);
         }
 
-        public ObservableCollection<CryptoCoin> CryptoCoinList
+        public ObservableCollection<Models.CryptoCoin> CryptoCoinList
         {
             get => _cryptoCoinList;
             set => SetProperty(ref _cryptoCoinList, value);
         }
 
-        public ObservableCollection<CryptoCoin> CryptoCoinForSearchList
+        public ObservableCollection<Models.CryptoCoin> CryptoCoinForSearchList
         {
             get => _cryptoCoinForSearchList;
             set => SetProperty(ref _cryptoCoinForSearchList, value);
         }
 
-        public DelegateCommand<CryptoCoin> SelectedCryptoDetailCommand { get; }
+        public DelegateCommand<Models.CryptoCoin> SelectedCryptoDetailCommand { get; }
 
-        public DelegateCommand<CryptoCoin> SelectedCryptoCoinCommand { get; }
+        public DelegateCommand<Models.CryptoCoin> SelectedCryptoCoinCommand { get; }
 
         public string TextSearch
         {
@@ -73,7 +74,7 @@ namespace CryptoApp.ViewModels
                                     e.Name.Contains(_textSearch) ||
                                     e.Symbol.Contains(_textSearch));
 
-                    CryptoCoinForSearchList = new ObservableCollection<CryptoCoin>(filteredList);
+                    CryptoCoinForSearchList = new ObservableCollection<Models.CryptoCoin>(filteredList);
                 }
             }
         }
@@ -98,15 +99,15 @@ namespace CryptoApp.ViewModels
             {
                 try
                 {
-                    var coinList = await _coinGeckoService.Api.GetCoins();
-                    var coinMarkets = await _coinGeckoService.Api.GetCoinMarkets();
+                    var coinList = await _mainPageService.GetCoins();
+                    var coinMarkets = await _mainPageService.GetCoinMarkets();
 
                     //CALLING BeginInvokeOnMainThread TO BRING IT BACK TO UI MAIN TRHEAD
                     _deviceService.BeginInvokeOnMainThread(() =>
                     {
                         _cryptoCoinForSearchOriginalList = coinList;
-                        CryptoCoinForSearchList = new ObservableCollection<CryptoCoin>(coinList);
-                        CryptoCoinList = new ObservableCollection<CryptoCoin>(coinMarkets);
+                        CryptoCoinForSearchList = new ObservableCollection<Models.CryptoCoin>(coinList);
+                        CryptoCoinList = new ObservableCollection<Models.CryptoCoin>(coinMarkets);
                         loading.Hide();
                     });
                 }
@@ -122,13 +123,13 @@ namespace CryptoApp.ViewModels
             });
         }
 
-        private void NavigateCryptoDetail(CryptoCoin obj)
+        private void NavigateCryptoDetail(Models.CryptoCoin obj)
         {
             var navParam = new NavigationParameters
             {
-                { nameof(CryptoCoin), obj}
+                { nameof(Models.CryptoCoin), obj}
             };
-            NavigationService.NavigateAsync(nameof(CryptoDetailPage), navParam);
+            _navigationService.NavigateAsync(nameof(CryptoDetailPage), navParam);
         }
     }
 }

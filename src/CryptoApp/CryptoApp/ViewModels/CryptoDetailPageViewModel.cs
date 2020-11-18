@@ -10,33 +10,39 @@ using Prism.Navigation;
 using Prism.Services;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using CryptoApp.Models.Dtos;
+using CryptoApp.Services.ApiClientServices;
+using CryptoApp.Services.Interfaces;
+using CryptoApp.ViewModels.Base;
 
 namespace CryptoApp.ViewModels
 {
-    public class CryptoDetailPageViewModel : ViewModelBase
+    public class CryptoDetailPageViewModel : BaseViewModel
     {
-        private readonly IApiService<ICoinGeckoService> _coinGeckoService;
+        private readonly INavigationService _navigationService;
         private readonly IUserDialogs _userDialogs;
         private readonly IDeviceService _deviceService;
-        private CryptoCoin _selectedCryptoCoin;
-        private CryptoCoinDetail _cryptoCoinDetail;
+        private readonly ICryptoDetailPageService _cryptoDetailPageService;
+
+        private Models.CryptoCoin _selectedCryptoCoin;
+        private Models.CryptoCoinDetail _cryptoCoinDetail;
 
         public CryptoDetailPageViewModel(
-            INavigationService navigationService, 
-            IApiService<ICoinGeckoService> coinGeckoService, 
+            INavigationService navigationService,
             IUserDialogs userDialogs, 
-            IDeviceService deviceService)
-            : base(navigationService)
+            IDeviceService deviceService, 
+            ICryptoDetailPageService cryptoDetailPageService)
         {
-            _coinGeckoService = coinGeckoService;
+            _navigationService = navigationService;
             _userDialogs = userDialogs;
             _deviceService = deviceService;
+            _cryptoDetailPageService = cryptoDetailPageService;
             Title = "Crypto Detail Page";
 
 
         }
 
-        public CryptoCoinDetail CryptoCoinDetail 
+        public Models.CryptoCoinDetail CryptoCoinDetail 
         {             
             get => _cryptoCoinDetail;
             set => SetProperty(ref _cryptoCoinDetail, value);
@@ -44,8 +50,7 @@ namespace CryptoApp.ViewModels
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            _selectedCryptoCoin = parameters.GetValue<CryptoCoin>(nameof(CryptoCoin));
-
+            _selectedCryptoCoin = parameters.GetValue<Models.CryptoCoin>(nameof(Models.CryptoCoin));
             GetCryptoCoinDetails();
         }
 
@@ -58,7 +63,7 @@ namespace CryptoApp.ViewModels
             {
                 try
                 {
-                    var coinDetail = await _coinGeckoService.Api.GetCoinDetails(_selectedCryptoCoin.Id);
+                    var coinDetail = await _cryptoDetailPageService.GetCoinDetails(_selectedCryptoCoin.Id);
                     
                     //CALLING BeginInvokeOnMainThread TO BRING IT BACK TO UI MAIN TRHEAD
                     _deviceService.BeginInvokeOnMainThread(() =>

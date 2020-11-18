@@ -1,16 +1,10 @@
-﻿using Prism.Commands;
-using Prism.Mvvm;
+﻿using Prism.Mvvm;
 using Prism.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace CryptoApp.ViewModels
+namespace CryptoApp.ViewModels.Base
 {
-    public class ViewModelBase : BindableBase, IInitialize, INavigationAware, IDestructible
+    public class BaseViewModel : BindableBase, IInitialize, INavigationAware, IDestructible
     {
-        protected INavigationService NavigationService { get; private set; }
-
         private string _title;
         public string Title
         {
@@ -18,9 +12,15 @@ namespace CryptoApp.ViewModels
             set => SetProperty(ref _title, value);
         }
 
-        public ViewModelBase(INavigationService navigationService)
+        private bool _isBusy;
+        public bool IsBusy
         {
-            NavigationService = navigationService;
+            get => _isBusy;
+            set => SetProperty(ref _isBusy, value);
+        }
+
+        public BaseViewModel()
+        {
         }
 
         public virtual void Initialize(INavigationParameters parameters)
